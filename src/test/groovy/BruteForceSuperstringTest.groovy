@@ -6,13 +6,12 @@ import spock.lang.Specification
 
 class BruteForceSuperstringTest extends Specification{
 
-    def 'Sample Dataset Test Case'() {
+    def 'Sample Dataset Test Case from Rosalind'() {
         setup:
-        SuperstringStrategy strategy = new BruteForceSuperstring()
         List<String> dnaStrings = ['ATTAGACCTG', 'CCTGCCGGAA', 'AGACCTGCCG', 'GCCGGAATAC']
         when:
-        def result = strategy.findShortestSuperstring(dnaStrings)
+        def result = new BruteForceSuperstring().findShortestSuperstring(dnaStrings)
         then:
-        result == 'ATTAGACCTGCCGGAATAC'
+        assert result == 'ATTAGACCTGCCGGAATAC'
     }
 }
