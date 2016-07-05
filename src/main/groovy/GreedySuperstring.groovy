@@ -1,9 +1,14 @@
 import utils.CommonStringUtil
 
 /**
- * The strategy uses greedy mechanism to find out the shortest superstring
+ * The strategy uses greedy mechanism to find out the shortest superstring.
+ *
+ * The brute force strategy takes forever on i7 MBP with 16Gb ram. A faster greedy solution is needed
  *
  * Reference: https://www.youtube.com/watch?v=aGpMH5l3mrI
+ *
+ * NOTE that this greedy algorithm is only an approximation. It may not return the "shortest" superstring if
+ * length of multiple
  *
  * Data structure:
  *      The data will be stored in a maps of map,
@@ -33,6 +38,14 @@ class GreedySuperstring implements SuperstringStrategy {
 
     @Override
     String findShortestSuperstring(List<String> dnaStrings) {
+
+        // A map of dna string to the length of longest common string with all other dna strings
+        // ['ACTG' : [
+        //      'ACTGACTG' : 4,
+        //      'CTGACTG' : 3 ]]
+        Map<Map<Integer>> longestCommonStringMap = [:]
+
+        println dnaStrings.size()
         return 'ATTAGACCTGCCGGAATAC'
     }
 }

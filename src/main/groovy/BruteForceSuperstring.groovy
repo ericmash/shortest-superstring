@@ -22,14 +22,18 @@ class BruteForceSuperstring implements SuperstringStrategy {
 
     @Override
     String findShortestSuperstring(List<String> dnaStrings) {
+        // loop through all permutations and find the shortest superstring
         return dnaStrings.permutations().inject("") { String shortestSuperstring, List<String> permutation ->
 
+            // loop through all dna strings in a permutation,
+            // for each iteration, create a new shortest superstring from previous superstring and current DNA string
             String superString = permutation.inject("") { String superString, String dnaString ->
                 return CommonStringUtil.findShortestSuperstring(superString, dnaString)
             }
 
             boolean isShortestStringFound = !shortestSuperstring || superString.length() < shortestSuperstring.length()
 
+            // return the new superstring if it is shorter than the existing shortest superstring
             return isShortestStringFound ? superString : shortestSuperstring
         }
     }
