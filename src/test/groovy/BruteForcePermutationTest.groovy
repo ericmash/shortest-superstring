@@ -7,13 +7,22 @@ import utils.TestSampleUtil
 
 class BruteForcePermutationTest extends Specification{
 
-    def 'Sample Dataset Test Case from Rosalind'() {
+    def 'Test Sample Dataset from Rosalind'() {
         setup:
         List<String> dnaStrings = ['ATTAGACCTG', 'CCTGCCGGAA', 'AGACCTGCCG', 'GCCGGAATAC']
         when:
         def result = new BruteForcePermutation().findShortestSuperstring(dnaStrings)
         then:
         assert result == 'ATTAGACCTGCCGGAATAC'
+    }
+
+    def 'Test Dataset with and without overlaps'() {
+        setup:
+        List<String> dnaStrings = ['AAAAAAAA', 'AAAAAAAA', 'AAAAAAAA', 'AAAAAAAA', 'TTTTTTTT']
+        when:
+        def result = new BruteForcePermutation().findShortestSuperstring(dnaStrings)
+        then:
+        assert result == 'AAAAAAAATTTTTTTT'
     }
 
 //    /**

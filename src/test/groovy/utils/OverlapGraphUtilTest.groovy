@@ -52,7 +52,7 @@ class OverlapGraphUtilTest extends Specification {
         when:
         def result = OverlapGraphUtil.getLongestOverlapPair(inputs)
         then:
-        assert result == null
+        assert result.key == 'AppleOrange' && result.value == 'BananaPear'
     }
 
     def 'Test merge'() {
@@ -65,8 +65,8 @@ class OverlapGraphUtilTest extends Specification {
         when:
         def result = OverlapGraphUtil.merge(inputs, 'AppleBanana', 'BananaPear')
         then:
-        assert [
-            'OrangeApple'     : [ 'AppleBananaPear': 5 ],
+        assert result == [
+            'OrangeApple'     : [ 'AppleOrange': 5, 'AppleBananaPear': 5 ],
             'AppleOrange'     : [ 'OrangeApple': 6 ],
             'AppleBananaPear' : [:]
         ]
@@ -80,7 +80,7 @@ class OverlapGraphUtilTest extends Specification {
         when:
         def result = OverlapGraphUtil.merge(inputs, 'OrangeApple', 'BananaPear')
         then:
-        assert [
+        assert result == [
                 'OrangeAppleBananaPear' : [:]
         ]
     }

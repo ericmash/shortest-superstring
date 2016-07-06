@@ -3,10 +3,18 @@ import utils.OverlapGraphUtil
 /**
  * The strategy uses greedy mechanism to find out the shortest superstring.
  *
+ * ASSUMPTION: pairs must overlap by more than half of their lengths
+ *             e.g 4 DNA string of 10 bases will have a superstring less than 20
+ *
+ *
  * Reference: https://www.youtube.com/watch?v=aGpMH5l3mrI
  *
  * NOTE that this greedy algorithm is only an approximation. It may not return the "shortest" superstring if
- * length of multiple
+ * overlap length of dna strings are the same
+ *
+ * POSSIBLE IMPROVEMENT:
+ * Verify the result of the greedy solution, if the superstring does not satisfy the assumption (length < total length / 2)
+ * Then revisit an alternative path that has the same overlap length
  *
  * Data structure:
  *      The data will be stored in a maps of map,

@@ -7,13 +7,22 @@ import utils.TestSampleUtil
 
 class GreedyDFSTest extends Specification{
 
-    def 'Sample Dataset Test Case from Rosalind'() {
+    def 'Test Sample Dataset from Rosalind'() {
         setup:
         List<String> dnaStrings = ['ATTAGACCTG', 'CCTGCCGGAA', 'AGACCTGCCG', 'GCCGGAATAC']
         when:
         def result = new GreedyDFS().findShortestSuperstring(dnaStrings)
         then:
         assert result == 'ATTAGACCTGCCGGAATAC'
+    }
+
+    def 'Test Dataset with and without overlaps'() {
+        setup:
+        List<String> dnaStrings = ['AAAAAAAA', 'AAAAAAAA', 'AAAAAAAA', 'AAAAAAAA', 'TTTTTTTT']
+        when:
+        def result = new BruteForcePermutation().findShortestSuperstring(dnaStrings)
+        then:
+        assert result == 'AAAAAAAATTTTTTTT'
     }
 
     def 'Test cases from Driver Group'() {
@@ -24,7 +33,7 @@ class GreedyDFSTest extends Specification{
         when:
         def result = new GreedyDFS().findShortestSuperstring(dnaStrings)
         then:
-        assert result.length() > 0 && result.length() < maxLength  // make sure there is a result and assumption is kept
+        assert result.length() > 0 && result.length() < maxLength  // make sure there is a result and length is within assumption
         assert dnaStrings.every { // make sure the superstring contains all the original DNA strings
             result.contains(it)
         }

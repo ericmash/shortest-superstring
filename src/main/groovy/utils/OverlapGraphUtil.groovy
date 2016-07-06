@@ -47,11 +47,16 @@ class OverlapGraphUtil {
      * Find the longest overlap from the graph
      *
      * If more than 2 longest overlaps are found, the first one will be returned
+     * Pair with zero overlap will be included in the result
      *
      * @param overlapGraph Overlap graph
      * @return map entry of the longest overlap pair (leading: trailing), return null if not found
      */
     static MapEntry getLongestOverlapPair(Map<String, Map<String, Integer>> overlapGraph) {
+        if (overlapGraph.size() <= 1) { // there cannot be any overlap for only one string
+            return null
+        }
+
         MapEntry result = new MapEntry(null, null)
         int maxOverlap = 0
 
@@ -64,6 +69,12 @@ class OverlapGraphUtil {
                     result.value = trailing
                 }
             }
+        }
+
+        if (maxOverlap == 0) { // no overlap found
+            Set<String> remainings = overlapGraph.keySet()
+            result.key = remainings[0]
+            result.value = remainings[1]
         }
 
         // return null if no overlap is found
