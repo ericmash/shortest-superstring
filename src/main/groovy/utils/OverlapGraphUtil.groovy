@@ -71,7 +71,7 @@ class OverlapGraphUtil {
             }
         }
 
-        if (maxOverlap == 0) { // no overlap found
+        if (maxOverlap == 0) { // if no overlap found, randomly return 2 of the remaining strings
             Set<String> remainings = overlapGraph.keySet()
             result.key = remainings[0]
             result.value = remainings[1]
