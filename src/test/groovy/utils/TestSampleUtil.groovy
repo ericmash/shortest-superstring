@@ -930,10 +930,6 @@ AAGCCGGCGATAGGCTACTAAGCTTCGCTCTTGC"""
             }
         }
 
-        dnaStrings.each {
-            println it
-        }
-
         return dnaStrings
     }
 }

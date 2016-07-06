@@ -5,7 +5,7 @@
 import spock.lang.Specification
 import utils.CommonStringUtil
 
-class CommonStringUtilTest extends Specification{
+class CommonStringUtilTest extends Specification {
 
     def 'Test findShortestSuperString'() {
         setup:

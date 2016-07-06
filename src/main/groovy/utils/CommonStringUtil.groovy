@@ -12,7 +12,8 @@ class CommonStringUtil {
      *
      * @param a first string
      * @param b second string
-     * @return shortest common superstring
+     * @return shortest common superstring,
+     * null if shortest common superstring is not found or overlap is shorter than half of their lengths
      */
     static String findShortestSuperstring(String a, String b) {
         int lcsLength = countLongestCommonString(a, b)
@@ -21,72 +22,30 @@ class CommonStringUtil {
 
     /**
      * Find the length of the longest common string from the two input strings
+     *
      * NOTE that the strings are compared in order,
-     * "OrangeApple" + "AppleOrange" -> "Apple" -> 5
+     * "PearOrange" + "OrangePear" -> "Orange" -> 6
+     * "OrangeApple" + "AppleOrange" -> 0 (because this is invalid based on assumption)
      *
-     * Binary search will be used to achieve O(NlogN) for string with N characters
-     * The upper bound is searched first so that the lower can be skipped in a common string is found
-     *
-     * Return 0 if no common string is found
+     * Linear search will be used to achieve O(N) for string with N characters
      *
      * @param a first string
      * @param b second string
-     * @return length of longest common string
+     * @return length of longest common string, 0 if no common string is found
      */
     static int countLongestCommonString(String a, String b) {
-        return countLCS(a, b, 0, Math.min(a.length(), b.length()), 0)
-    }
+        int maxLength = Math.min(a.length(), b.length())
 
+        // linear search with decreasing length
+        for (int i = maxLength; i > 0; i --) {
+            int aStartIndex = a.length() - i
+            boolean isCommonStringFound = a.substring(aStartIndex, a.length()) == b.substring(0, i)
 
-    /**
-     * Find the length of the longest common string from the two input strings
-     * NOTE that the strings are compared in order
-     *
-     * Return 0 if no common string is found
-     *
-     * @param a first string
-     * @param b second string
-     * @param minLength minimum length to check for common string
-     * @param maxLength maximum length to check for common string
-     * @param maxFound maximum length of common string that has been found
-     * @return length of longest common string
-     */
-    static private int countLCS(String a, String b, int minLength, int maxLength, int maxFound) {
-        if (!a || !b || a.isEmpty() || b.isEmpty()) {
-            return 0
+            if (isCommonStringFound) {
+                return i
+            }
         }
 
-        if (maxLength <= maxFound) { // no further check is needed since the max length is already found
-            return maxFound
-        }
-
-        if (minLength > maxLength) { // check is completed, return the max length found
-            return maxFound
-        }
-
-        int lengthToCheck = (minLength + maxLength + 1) / 2
-
-        int aLength = a.length()
-        int bLength = b.length()
-
-        // there is no common string if the length that is being checked is longer than one of the input strings
-        if (lengthToCheck > aLength || lengthToCheck > bLength || lengthToCheck < 1) {
-            return maxFound
-        }
-
-        int aStartIndex = aLength - lengthToCheck
-        int aEndIndex = aLength
-        int bEndIndex = lengthToCheck
-
-        boolean isCommonStringFound = a.substring(aStartIndex, aEndIndex) == b.substring(0, bEndIndex)
-        int currMaxFound = isCommonStringFound ? lengthToCheck : maxFound
-
-        if (isCommonStringFound) { // try to find longer common string
-            return countLCS(a, b, currMaxFound + 1, maxLength, currMaxFound)
-        } else {
-            // check upper bound first, then lower bound if no common string is found in upper bound
-            currMaxFound = countLCS(a, b, lengthToCheck + 1, maxLength, currMaxFound)
-            return countLCS(a, b, minLength, lengthToCheck - 1, currMaxFound)
-        }
+        return 0
     }
 }

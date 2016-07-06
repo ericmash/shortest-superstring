@@ -1,9 +1,7 @@
-import utils.CommonStringUtil
+import utils.OverlapGraphUtil
 
 /**
  * The strategy uses greedy mechanism to find out the shortest superstring.
- *
- * The brute force strategy takes forever on i7 MBP with 16Gb ram. A faster greedy solution is needed
  *
  * Reference: https://www.youtube.com/watch?v=aGpMH5l3mrI
  *
@@ -28,24 +26,27 @@ import utils.CommonStringUtil
  *
  * For N DNA Strings with M bases
  *
- * Time-analysis: O(N * (N choose 2) * MlogM) where N * (N choose 2) is the time to find all combinations
- *                                            and MlogM is the time to find longest superstring for each combination
+ * Time-analysis: O(N * (N choose 2) * M) where N * (N choose 2) is the time to find all combinations
+ *                                            and M is the time to find longest superstring for each combination
  *
  * Space-analysis: O(N choose 2) to store all the combinations
  *
  */
-class GreedySuperstring implements SuperstringStrategy {
+class GreedyDFS implements SuperstringStrategy {
 
     @Override
     String findShortestSuperstring(List<String> dnaStrings) {
 
-        // A map of dna string to the length of longest common string with all other dna strings
-        // ['ACTG' : [
-        //      'ACTGACTG' : 4,
-        //      'CTGACTG' : 3 ]]
-        Map<Map<Integer>> longestCommonStringMap = [:]
+        Map<String, Map<String, Integer>> overlapGraph = OverlapGraphUtil.getOverlapGraph(dnaStrings)
 
-        println dnaStrings.size()
-        return 'ATTAGACCTGCCGGAATAC'
+        // keep merging until only 1 string left
+        while (overlapGraph.size() > 1) {
+            MapEntry pair = OverlapGraphUtil.getLongestOverlapPair(overlapGraph)
+
+            OverlapGraphUtil.merge(overlapGraph, pair.key as String, pair.value as String)
+        }
+
+        // the remaining string is the shortest superstring
+        return overlapGraph.keySet().first()
     }
 }
